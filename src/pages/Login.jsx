@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import fetchTokenApi from '../services/trivia_API';
@@ -62,6 +63,12 @@ class Login extends Component {
           datatestid="btn-play"
           onclick={ this.handleClick }
         />
+        <Link to="/settings">
+          <Button
+            buttonText="Configurações"
+            datatestid="btn-settings"
+          />
+        </Link>
       </>
     );
   }
