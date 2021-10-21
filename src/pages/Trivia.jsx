@@ -12,12 +12,29 @@ class Trivia extends Component {
     this.state = {
       indexQuestions: 0,
       colorBorder: false,
+      disabled: false,
+      timer: 30,
     };
+  }
+
+  componentDidMount() {
+    const ONE_SECOND = 1000;
+    setInterval(() => this.countDown(), ONE_SECOND);
+  }
+
+  countDown() {
+    const { timer } = this.state;
+    if (timer === 0) {
+      this.setState({ colorBorder: true, disabled: true });
+    }
+    if (timer > 0) {
+      this.setState((prevState) => ({ timer: prevState.timer - 1 }));
+    }
   }
 
   renderQuestion() {
     const { questionsTrivia } = this.props;
-    const { indexQuestions, colorBorder } = this.state;
+    const { indexQuestions, colorBorder, disabled, timer } = this.state;
 
     return (
       <>
@@ -27,6 +44,7 @@ class Trivia extends Component {
           type="button"
           data-testid="correct-answer"
           className="correct-answer"
+          disabled={ disabled }
           onClick={ () => this.setState({ colorBorder: true }) }
           style={ colorBorder ? { border: '3px solid rgb(6, 240, 15)' } : null }
         >
@@ -37,6 +55,7 @@ class Trivia extends Component {
             type="button"
             data-testid={ `wrong-answer-${index}` }
             key={ index }
+            disabled={ disabled }
             className="wrong-answer"
             onClick={ () => this.setState({ colorBorder: true }) }
             style={ colorBorder ? { border: '3px solid rgb(255, 0, 0)' } : null }
@@ -44,6 +63,7 @@ class Trivia extends Component {
             {incorrect}
           </button>
         ))}
+        {timer}
       </>
     );
   }
@@ -54,9 +74,7 @@ class Trivia extends Component {
     return (
       <div>
         <Header />
-        <h4 data-testid="question-category">
-          { questionsTrivia.length > 0 && this.renderQuestion() }
-        </h4>
+        { questionsTrivia.length > 0 && this.renderQuestion() }
       </div>
     );
   }
