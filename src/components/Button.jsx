@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 
 class Button extends Component {
   render() {
-    const { onclick, buttonText, disabled, datatestid } = this.props;
+    const { onClick, buttonText, disabled, datatestid } = this.props;
     return (
       <button
         type="button"
-        onClick={ onclick }
+        onClick={ onClick }
         disabled={ disabled }
         data-testid={ datatestid }
       >
@@ -20,8 +20,13 @@ class Button extends Component {
 Button.propTypes = {
   buttonText: PropTypes.string.isRequired,
   datatestid: PropTypes.string.isRequired,
-  disabled: PropTypes.bool.isRequired,
-  onclick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func,
+};
+
+Button.defaultProps = {
+  disabled: null,
+  onClick: null,
 };
 
 export default Button;

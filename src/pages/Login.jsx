@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import fetchTokenApi from '../services/trivia_API';
-import { savePlayerInfos } from '../redux/actions';
+import { savePlayerInfos, fetchQuestions } from '../redux/actions';
+import logo from '../trivia.png';
 
 class Login extends Component {
   constructor() {
@@ -31,11 +31,11 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
-  handleClick() {
-    const { history, dispatchPlayerInfo } = this.props;
+  async handleClick() {
+    const { history, dispatchPlayerInfo, receiveQuestions } = this.props;
     const { userName, userEmail } = this.state;
     dispatchPlayerInfo({ userName, userEmail });
-    fetchTokenApi();
+    receiveQuestions();
     history.push('/trivia');
   }
 
@@ -43,6 +43,7 @@ class Login extends Component {
     const { userName, userEmail } = this.state;
     return (
       <>
+        <img src={ logo } className="App-logo" alt="logo" />
         <Input
           label="Nome:"
           type="text"
@@ -65,7 +66,7 @@ class Login extends Component {
           buttonText="Jogar"
           disabled={ this.handleButton() }
           datatestid="btn-play"
-          onclick={ this.handleClick }
+          onClick={ this.handleClick }
         />
         <Link to="/settings">
           <Button
@@ -79,12 +80,14 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  history: PropTypes.objectOf(PropTypes.any).isRequired,
   dispatchPlayerInfo: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
+  receiveQuestions: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchPlayerInfo: (login) => dispatch(savePlayerInfos(login)),
+  receiveQuestions: () => dispatch(fetchQuestions()),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

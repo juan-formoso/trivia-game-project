@@ -14,8 +14,8 @@ class Header extends Component {
           alt="gravatar"
           data-testid="header-profile-picture"
         />
-        <span data-testid="header-player-name">{ userName }</span>
-        <span data-testid="header-score">0</span>
+        <span data-testid="header-player-name">{`Jogador: ${userName}`}</span>
+        <span data-testid="header-score">Pontuação: 0</span>
       </header>
     );
   }
