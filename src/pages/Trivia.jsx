@@ -11,12 +11,13 @@ class Trivia extends Component {
 
     this.state = {
       indexQuestions: 0,
+      colorBorder: false,
     };
   }
 
   renderQuestion() {
     const { questionsTrivia } = this.props;
-    const { indexQuestions } = this.state;
+    const { indexQuestions, colorBorder } = this.state;
 
     return (
       <>
@@ -25,6 +26,9 @@ class Trivia extends Component {
         <button
           type="button"
           data-testid="correct-answer"
+          className="correct-answer"
+          onClick={ () => this.setState({ colorBorder: true }) }
+          style={ colorBorder ? { border: '3px solid rgb(6, 240, 15)' } : null }
         >
           {questionsTrivia[indexQuestions].correct_answer}
         </button>
@@ -33,6 +37,9 @@ class Trivia extends Component {
             type="button"
             data-testid={ `wrong-answer-${index}` }
             key={ index }
+            className="wrong-answer"
+            onClick={ () => this.setState({ colorBorder: true }) }
+            style={ colorBorder ? { border: '3px solid rgb(255, 0, 0)' } : null }
           >
             {incorrect}
           </button>
