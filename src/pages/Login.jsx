@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import fetchTokenApi from '../services/trivia_API';
+import { savePlayerInfos } from '../redux/actions';
 
 class Login extends Component {
   constructor() {
@@ -30,7 +32,9 @@ class Login extends Component {
   }
 
   handleClick() {
-    const { history } = this.props;
+    const { history, dispatchPlayerInfo } = this.props;
+    const { userName, userEmail } = this.state;
+    dispatchPlayerInfo({ userName, userEmail });
     fetchTokenApi();
     history.push('/trivia');
   }
@@ -76,6 +80,11 @@ class Login extends Component {
 
 Login.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  dispatchPlayerInfo: PropTypes.func.isRequired,
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  dispatchPlayerInfo: (login) => dispatch(savePlayerInfos(login)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
