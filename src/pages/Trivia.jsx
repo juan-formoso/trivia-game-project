@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import { getScore } from '../redux/actions';
 
 class Trivia extends Component {
   constructor() {
@@ -9,18 +10,59 @@ class Trivia extends Component {
 
     this.renderQuestion = this.renderQuestion.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleScore = this.handleScore.bind(this);
 
     this.state = {
       indexQuestions: 0,
       colorBorder: false,
       disabled: false,
       timer: 30,
+      score: 0,
     };
   }
 
   componentDidMount() {
     const ONE_SECOND = 1000;
     setInterval(() => this.countDown(), ONE_SECOND);
+  }
+
+  handleScore(className) {
+    let scorePerQuestion = 0;
+    const TEN = 10;
+    const scoreRules = {
+      hard: 3,
+      medium: 2,
+      easy: 1,
+    };
+    const { timer, indexQuestions } = this.state;
+    const { questionsTrivia, receiveScore } = this.props;
+    const { difficulty } = questionsTrivia[indexQuestions];
+    const scoreEachQuestion = () => {
+      if (difficulty === 'hard') {
+        scorePerQuestion = TEN + (timer * scoreRules.hard);
+      } else if (difficulty === 'medium') {
+        scorePerQuestion = TEN + (timer * scoreRules.medium);
+      } else {
+        scorePerQuestion = TEN + (timer * scoreRules.easy);
+      }
+      return scorePerQuestion;
+    };
+    scoreEachQuestion();
+    if (className === 'correct-answer') {
+      this.setState((prevState) => ({ score: prevState.score + scorePerQuestion }));
+      receiveScore(this.state);
+      const objectState = JSON.parse(localStorage.getItem('state'));
+      objectState.player.score += scorePerQuestion;
+      objectState.player.assertions += 1;
+      localStorage.setItem('state', JSON.stringify(objectState));
+    }
+  }
+
+  handleClick({ target }) {
+    const { className } = target;
+    this.setState({ colorBorder: true });
+    this.handleScore(className);
   }
 
   countDown() {
@@ -36,9 +78,11 @@ class Trivia extends Component {
   nextQuestion() {
     const FOUR = 4;
     const { indexQuestions } = this.state;
+    const { history } = this.props;
     if (indexQuestions < FOUR) {
       this.setState((prevState) => ({ indexQuestions: prevState.indexQuestions + 1 }));
     }
+    if (indexQuestions === FOUR) history.push('/feedback');
     this.setState({ timer: 30, colorBorder: false, disabled: false });
   }
 
@@ -70,7 +114,7 @@ class Trivia extends Component {
           data-testid="correct-answer"
           className="correct-answer"
           disabled={ disabled }
-          onClick={ () => this.setState({ colorBorder: true }) }
+          onClick={ (event) => this.handleClick(event) }
           style={ colorBorder ? { border: '3px solid rgb(6, 240, 15)' } : null }
         >
           {questionsTrivia[indexQuestions].correct_answer}
@@ -82,7 +126,7 @@ class Trivia extends Component {
             key={ index }
             disabled={ disabled }
             className="wrong-answer"
-            onClick={ () => this.setState({ colorBorder: true }) }
+            onClick={ (event) => this.handleClick(event) }
             style={ colorBorder ? { border: '3px solid rgb(255, 0, 0)' } : null }
           >
             {incorrect}
@@ -110,10 +154,15 @@ Trivia.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   questionsTrivia: PropTypes.arrayOf(PropTypes.object).isRequired,
+  receiveScore: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   questionsTrivia: state.trivia.questions,
 });
 
-export default connect(mapStateToProps, null)(Trivia);
+const mapDispatchToProps = (dispatch) => ({
+  receiveScore: (state) => dispatch(getScore(state)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Trivia);

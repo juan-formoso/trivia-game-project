@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { savePlayerInfos, fetchQuestions } from '../redux/actions';
-import logo from '../trivia.png';
 
 class Login extends Component {
   constructor() {
@@ -16,14 +15,16 @@ class Login extends Component {
     this.handleClick = this.handleClick.bind(this);
 
     this.state = {
-      userName: '',
-      userEmail: '',
+      name: '',
+      gravatarEmail: '',
+      score: 0,
+      assertions: 0,
     };
   }
 
   handleButton() {
-    const { userName, userEmail } = this.state;
-    if (userName.length === 0 || userEmail.length === 0) return true;
+    const { name, gravatarEmail } = this.state;
+    if (name.length === 0 || gravatarEmail.length === 0) return true;
     return false;
   }
 
@@ -31,24 +32,28 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
+  saveKeyPlayer() {
+    localStorage.setItem('state', JSON.stringify({ player: { ...this.state } }));
+  }
+
   async handleClick() {
     const { history, dispatchPlayerInfo, receiveQuestions } = this.props;
-    const { userName, userEmail } = this.state;
-    dispatchPlayerInfo({ userName, userEmail });
+    const { name, gravatarEmail } = this.state;
+    dispatchPlayerInfo({ name, gravatarEmail });
+    this.saveKeyPlayer();
     receiveQuestions();
     history.push('/trivia');
   }
 
   render() {
-    const { userName, userEmail } = this.state;
+    const { name, gravatarEmail } = this.state;
     return (
       <>
-        <img src={ logo } className="App-logo" alt="logo" />
         <Input
           label="Nome:"
           type="text"
-          name="userName"
-          value={ userName }
+          name="name"
+          value={ name }
           onChange={ this.handleChange }
           placeholder="Digite seu nome"
           datatestid="input-player-name"
@@ -56,8 +61,8 @@ class Login extends Component {
         <Input
           label="E-mail:"
           type="email"
-          name="userEmail"
-          value={ userEmail }
+          name="gravatarEmail"
+          value={ gravatarEmail }
           onChange={ this.handleChange }
           placeholder="Digite seu e-mail"
           datatestid="input-gravatar-email"

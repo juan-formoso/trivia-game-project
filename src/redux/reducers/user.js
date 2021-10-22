@@ -9,8 +9,8 @@ const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case USER_LOGIN:
     return {
-      userName: action.payload.userName,
-      userEmail: action.payload.userEmail,
+      userName: action.payload.name,
+      userEmail: action.payload.gravatarEmail,
     };
   default:
     return state;
