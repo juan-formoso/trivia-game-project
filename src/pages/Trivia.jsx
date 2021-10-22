@@ -8,6 +8,7 @@ class Trivia extends Component {
     super();
 
     this.renderQuestion = this.renderQuestion.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
 
     this.state = {
       indexQuestions: 0,
@@ -29,6 +30,30 @@ class Trivia extends Component {
     }
     if (timer > 0) {
       this.setState((prevState) => ({ timer: prevState.timer - 1 }));
+    }
+  }
+
+  nextQuestion() {
+    const FOUR = 4;
+    const { indexQuestions } = this.state;
+    if (indexQuestions < FOUR) {
+      this.setState((prevState) => ({ indexQuestions: prevState.indexQuestions + 1 }));
+    }
+    this.setState({ timer: 30, colorBorder: false, disabled: false });
+  }
+
+  renderButtonNextQuestion() {
+    const { colorBorder } = this.state;
+    if (colorBorder) {
+      return (
+        <button
+          type="button"
+          onClick={ this.nextQuestion }
+          data-testid="btn-next"
+        >
+          Próxima pergunta
+        </button>
+      );
     }
   }
 
@@ -63,14 +88,14 @@ class Trivia extends Component {
             {incorrect}
           </button>
         ))}
-        {timer}
+        {`Tempo restante: ${timer} segundos`}
+        {this.renderButtonNextQuestion()}
       </>
     );
   }
 
   render() {
     const { questionsTrivia } = this.props;
-    console.log(questionsTrivia);
     return (
       <div>
         <Header />
@@ -81,6 +106,9 @@ class Trivia extends Component {
 }
 
 Trivia.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   questionsTrivia: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
