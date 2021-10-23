@@ -4,24 +4,6 @@ import { connect } from 'react-redux';
 import getGravatar from '../services/gravatar';
 
 class Header extends Component {
-  // constructor() {
-  //   super();
-
-  //   this.state = {
-  //     score: 0,
-  //   };
-  // }
-
-  // componentDidMount() {
-  //   this.getScoreAtLocalStorage();
-  // }
-
-  // getScoreAtLocalStorage() {
-  //   const { score } = JSON.parse(localStorage.getItem('state')).player;
-  //   this.setState({ score });
-  //   console.log(score);
-  // }
-
   render() {
     const { userName, userEmail, score } = this.props;
     const gravatarSrc = getGravatar(userEmail);
@@ -33,8 +15,9 @@ class Header extends Component {
           data-testid="header-profile-picture"
         />
         <span data-testid="header-player-name">{`Jogador: ${userName}`}</span>
+        <span>Pontuação: </span>
         <span data-testid="header-score">
-          {`Pontuação: ${score}`}
+          {score}
         </span>
       </header>
     );

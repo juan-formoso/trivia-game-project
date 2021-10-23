@@ -8,7 +8,7 @@ const score = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case GET_SCORE:
     return {
-      score: action.payload.score,
+      score: state.score + action.payload,
     };
   default:
     return state;

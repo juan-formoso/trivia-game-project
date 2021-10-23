@@ -12,6 +12,7 @@ class Trivia extends Component {
     this.nextQuestion = this.nextQuestion.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleScore = this.handleScore.bind(this);
+    this.scoreEachQuestion = this.scoreEachQuestion.bind(this);
 
     this.state = {
       indexQuestions: 0,
@@ -27,7 +28,9 @@ class Trivia extends Component {
     setInterval(() => this.countDown(), ONE_SECOND);
   }
 
-  handleScore(className) {
+  scoreEachQuestion() {
+    const { timer, indexQuestions } = this.state;
+    const { questionsTrivia } = this.props;
     let scorePerQuestion = 0;
     const TEN = 10;
     const scoreRules = {
@@ -35,23 +38,23 @@ class Trivia extends Component {
       medium: 2,
       easy: 1,
     };
-    const { timer, indexQuestions } = this.state;
-    const { questionsTrivia, receiveScore } = this.props;
     const { difficulty } = questionsTrivia[indexQuestions];
-    const scoreEachQuestion = () => {
-      if (difficulty === 'hard') {
-        scorePerQuestion = TEN + (timer * scoreRules.hard);
-      } else if (difficulty === 'medium') {
-        scorePerQuestion = TEN + (timer * scoreRules.medium);
-      } else {
-        scorePerQuestion = TEN + (timer * scoreRules.easy);
-      }
-      return scorePerQuestion;
-    };
-    scoreEachQuestion();
+    if (difficulty === 'hard') {
+      scorePerQuestion = TEN + (timer * scoreRules.hard);
+    } else if (difficulty === 'medium') {
+      scorePerQuestion = TEN + (timer * scoreRules.medium);
+    } else {
+      scorePerQuestion = TEN + (timer * scoreRules.easy);
+    }
+    return scorePerQuestion;
+  }
+
+  handleScore(className) {
+    const { receiveScore } = this.props;
+    const scorePerQuestion = this.scoreEachQuestion();
     if (className === 'correct-answer') {
       this.setState((prevState) => ({ score: prevState.score + scorePerQuestion }));
-      receiveScore(this.state);
+      receiveScore(scorePerQuestion);
       const objectState = JSON.parse(localStorage.getItem('state'));
       objectState.player.score += scorePerQuestion;
       objectState.player.assertions += 1;
@@ -61,7 +64,7 @@ class Trivia extends Component {
 
   handleClick({ target }) {
     const { className } = target;
-    this.setState({ colorBorder: true });
+    this.setState({ colorBorder: true, timer: 30 });
     this.handleScore(className);
   }
 
@@ -132,7 +135,7 @@ class Trivia extends Component {
             {incorrect}
           </button>
         ))}
-        {`Tempo restante: ${timer} segundos`}
+        {colorBorder ? null : `Tempo restante: ${timer} segundos`}
         {this.renderButtonNextQuestion()}
       </>
     );
