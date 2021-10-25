@@ -25,7 +25,11 @@ class Trivia extends Component {
 
   componentDidMount() {
     const ONE_SECOND = 1000;
-    setInterval(() => this.countDown(), ONE_SECOND);
+    this.intervalID = setInterval(() => this.countDown(), ONE_SECOND);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalID);
   }
 
   scoreEachQuestion() {
