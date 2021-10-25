@@ -25,7 +25,11 @@ class Trivia extends Component {
 
   componentDidMount() {
     const ONE_SECOND = 1000;
-    setInterval(() => this.countDown(), ONE_SECOND);
+    this.intervalID = setInterval(() => this.countDown(), ONE_SECOND);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalID);
   }
 
   scoreEachQuestion() {
@@ -89,8 +93,15 @@ class Trivia extends Component {
     this.setState({ timer: 30, colorBorder: false, disabled: false });
   }
 
+  encodeUtf8(string) {
+    // função do Lucas Rodrigues Turma 08
+    const stringUTF = unescape(encodeURIComponent(string));
+    return stringUTF.replace(/&quot;|&#039;/gi, '\'');
+  }
+
   renderButtonNextQuestion() {
-    const { colorBorder } = this.state;
+    const { colorBorder, indexQuestions } = this.state;
+    const FOUR = 4;
     if (colorBorder) {
       return (
         <button
@@ -98,7 +109,7 @@ class Trivia extends Component {
           onClick={ this.nextQuestion }
           data-testid="btn-next"
         >
-          Próxima pergunta
+          {indexQuestions === FOUR ? 'Finalizar jogo' : 'Próxima pergunta'}
         </button>
       );
     }
@@ -107,11 +118,14 @@ class Trivia extends Component {
   renderQuestion() {
     const { questionsTrivia } = this.props;
     const { indexQuestions, colorBorder, disabled, timer } = this.state;
+    const decodedQuestion = this.encodeUtf8(questionsTrivia[indexQuestions].question);
 
     return (
       <>
         <p data-testid="question-category">{questionsTrivia[indexQuestions].category}</p>
-        <p data-testid="question-text">{questionsTrivia[indexQuestions].question}</p>
+        <p data-testid="question-text">
+          {decodedQuestion}
+        </p>
         <button
           type="button"
           data-testid="correct-answer"

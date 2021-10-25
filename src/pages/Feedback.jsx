@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Button from '../components/Button';
+import getGravatar from '../services/gravatar';
 
 class Feedback extends Component {
   constructor() {
@@ -23,6 +24,19 @@ class Feedback extends Component {
       assertions,
       score,
     });
+  }
+
+  rankingLocalStorage() {
+    const { player } = JSON.parse(localStorage.getItem('state'));
+    const ranking = {
+      name: player.name,
+      score: player.score,
+      picture: getGravatar(player.gravatarEmail),
+    };
+    const rankingKey = JSON.parse(localStorage.getItem('ranking'));
+    localStorage.setItem('ranking', JSON.stringify(
+      localStorage.getItem('ranking') === null ? [ranking] : [...rankingKey, ranking],
+    ));
   }
 
   render() {
@@ -49,6 +63,7 @@ class Feedback extends Component {
           <Button
             buttonText="Ver Ranking"
             datatestid="btn-ranking"
+            onClick={ this.rankingLocalStorage }
           />
         </Link>
       </>
