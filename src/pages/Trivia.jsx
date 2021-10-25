@@ -89,6 +89,12 @@ class Trivia extends Component {
     this.setState({ timer: 30, colorBorder: false, disabled: false });
   }
 
+  encodeUtf8(string) {
+    // função do Lucas Rodrigues Turma 08
+    const stringUTF = unescape(encodeURIComponent(string));
+    return stringUTF.replace(/&quot;|&#039;/gi, '\'');
+  }
+
   renderButtonNextQuestion() {
     const { colorBorder, indexQuestions } = this.state;
     const FOUR = 4;
@@ -108,11 +114,14 @@ class Trivia extends Component {
   renderQuestion() {
     const { questionsTrivia } = this.props;
     const { indexQuestions, colorBorder, disabled, timer } = this.state;
+    const decodedQuestion = this.encodeUtf8(questionsTrivia[indexQuestions].question);
 
     return (
       <>
         <p data-testid="question-category">{questionsTrivia[indexQuestions].category}</p>
-        <p data-testid="question-text">{questionsTrivia[indexQuestions].question}</p>
+        <p data-testid="question-text">
+          {decodedQuestion}
+        </p>
         <button
           type="button"
           data-testid="correct-answer"
