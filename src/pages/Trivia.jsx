@@ -90,7 +90,8 @@ class Trivia extends Component {
   }
 
   renderButtonNextQuestion() {
-    const { colorBorder } = this.state;
+    const { colorBorder, indexQuestions } = this.state;
+    const FOUR = 4;
     if (colorBorder) {
       return (
         <button
@@ -98,7 +99,7 @@ class Trivia extends Component {
           onClick={ this.nextQuestion }
           data-testid="btn-next"
         >
-          Próxima pergunta
+          {indexQuestions === FOUR ? 'Finalizar jogo' : 'Próxima pergunta'}
         </button>
       );
     }
