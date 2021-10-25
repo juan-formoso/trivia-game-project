@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import Button from '../components/Button';
 
 class Feedback extends Component {
   constructor() {
@@ -37,6 +39,18 @@ class Feedback extends Component {
         <span data-testid="feedback-total-question">{assertions}</span>
         <h3>Sua pontuação foi de:</h3>
         <span data-testid="feedback-total-score">{`${score} pontos`}</span>
+        <Link to="/">
+          <Button
+            buttonText="Jogar novamente"
+            datatestid="btn-play-again"
+          />
+        </Link>
+        <Link to="/ranking">
+          <Button
+            buttonText="Ver Ranking"
+            datatestid="btn-ranking"
+          />
+        </Link>
       </>
     );
   }
