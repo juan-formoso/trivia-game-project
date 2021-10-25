@@ -115,10 +115,47 @@ class Trivia extends Component {
     }
   }
 
+  renderCorrectAnswer(answer) {
+    const { disabled, colorBorder } = this.state;
+    return (
+      <button
+        type="button"
+        data-testid="correct-answer"
+        className="correct-answer"
+        disabled={ disabled }
+        onClick={ (event) => this.handleClick(event) }
+        style={ colorBorder ? { border: '3px solid rgb(6, 240, 15)' } : null }
+      >
+        {answer}
+      </button>);
+  }
+
+  renderWrongAnswers(answer, index) {
+    const { disabled, colorBorder } = this.state;
+    return (
+      <button
+        type="button"
+        data-testid={ `wrong-answer-${index}` }
+        key={ index }
+        disabled={ disabled }
+        className="wrong-answer"
+        onClick={ (event) => this.handleClick(event) }
+        style={ colorBorder ? { border: '3px solid rgb(255, 0, 0)' } : null }
+      >
+        {answer}
+      </button>);
+  }
+
   renderQuestion() {
     const { questionsTrivia } = this.props;
-    const { indexQuestions, colorBorder, disabled, timer } = this.state;
+    const { indexQuestions, colorBorder, timer } = this.state;
     const decodedQuestion = this.encodeUtf8(questionsTrivia[indexQuestions].question);
+    const randomAnswers = [
+      questionsTrivia[indexQuestions].correct_answer,
+      ...questionsTrivia[indexQuestions].incorrect_answers,
+    ];
+    const sortedAnswers = randomAnswers.sort();
+    const correctAnswer = questionsTrivia[indexQuestions].correct_answer;
 
     return (
       <>
@@ -126,28 +163,9 @@ class Trivia extends Component {
         <p data-testid="question-text">
           {decodedQuestion}
         </p>
-        <button
-          type="button"
-          data-testid="correct-answer"
-          className="correct-answer"
-          disabled={ disabled }
-          onClick={ (event) => this.handleClick(event) }
-          style={ colorBorder ? { border: '3px solid rgb(6, 240, 15)' } : null }
-        >
-          {questionsTrivia[indexQuestions].correct_answer}
-        </button>
-        {questionsTrivia[indexQuestions].incorrect_answers.map((incorrect, index) => (
-          <button
-            type="button"
-            data-testid={ `wrong-answer-${index}` }
-            key={ index }
-            disabled={ disabled }
-            className="wrong-answer"
-            onClick={ (event) => this.handleClick(event) }
-            style={ colorBorder ? { border: '3px solid rgb(255, 0, 0)' } : null }
-          >
-            {incorrect}
-          </button>
+        {sortedAnswers.map((string) => this.encodeUtf8(string)).map((answer, index) => (
+          answer === correctAnswer
+            ? this.renderCorrectAnswer(answer) : this.renderWrongAnswers(answer, index)
         ))}
         {colorBorder ? null : `Tempo restante: ${timer} segundos`}
         {this.renderButtonNextQuestion()}
