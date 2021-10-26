@@ -4,6 +4,7 @@ export const USER_LOGIN = 'USER_LOGIN';
 export const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const GET_SCORE = 'GET_SCORE';
+export const SET_SCORE = 'SET_SCORE';
 
 export const savePlayerInfos = (payload) => ({
   type: USER_LOGIN, payload,
@@ -21,6 +22,10 @@ export const getQuestions = (payload) => ({
 export const getScore = (payload) => ({
   type: GET_SCORE,
   payload,
+});
+
+export const setScore = () => ({
+  type: SET_SCORE,
 });
 
 export const fetchQuestions = () => (dispatch) => {
