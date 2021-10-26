@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import { savePlayerInfos, fetchQuestions } from '../redux/actions';
+import { savePlayerInfos, fetchQuestions, setScore } from '../redux/actions';
 
 class Login extends Component {
   constructor() {
@@ -20,6 +20,11 @@ class Login extends Component {
       score: 0,
       assertions: 0,
     };
+  }
+
+  componentDidMount() {
+    const { setScoreToZero } = this.props;
+    setScoreToZero();
   }
 
   handleButton() {
@@ -88,11 +93,13 @@ Login.propTypes = {
   dispatchPlayerInfo: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   receiveQuestions: PropTypes.func.isRequired,
+  setScoreToZero: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchPlayerInfo: (login) => dispatch(savePlayerInfos(login)),
   receiveQuestions: () => dispatch(fetchQuestions()),
+  setScoreToZero: () => dispatch(setScore()),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
