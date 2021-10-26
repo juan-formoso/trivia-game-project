@@ -126,7 +126,7 @@ class Trivia extends Component {
         onClick={ (event) => this.handleClick(event) }
         style={ colorBorder ? { border: '3px solid rgb(6, 240, 15)' } : null }
       >
-        {answer}
+        {this.encodeUtf8(answer)}
       </button>);
   }
 
@@ -142,7 +142,7 @@ class Trivia extends Component {
         onClick={ (event) => this.handleClick(event) }
         style={ colorBorder ? { border: '3px solid rgb(255, 0, 0)' } : null }
       >
-        {answer}
+        {this.encodeUtf8(answer)}
       </button>);
   }
 
@@ -163,7 +163,7 @@ class Trivia extends Component {
         <p data-testid="question-text">
           {decodedQuestion}
         </p>
-        {sortedAnswers.map((string) => this.encodeUtf8(string)).map((answer, index) => (
+        {sortedAnswers.map((answer, index) => (
           answer === correctAnswer
             ? this.renderCorrectAnswer(answer) : this.renderWrongAnswers(answer, index)
         ))}
