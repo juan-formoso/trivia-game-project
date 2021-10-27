@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Ranking.css';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 
@@ -14,14 +15,18 @@ class Ranking extends Component {
         {arrayRanking.sort((a, b) => b.score - a.score)
           .map(({ name, score, picture }, index) => (
             <li key={ index }>
-              <div className="gravatar">
-                <img
-                  src={ picture }
-                  alt="imagem gravatar"
-                  data-testid="header-profile-picture"
-                />
-              </div>
-              <p data-testid={ `player-name-${index}` }>{ name }</p>
+              <img
+                src={ picture }
+                alt="imagem gravatar"
+                data-testid="header-profile-picture"
+                className="rankingImg"
+              />
+              <p
+                className="nameRanking"
+                data-testid={ `player-name-${index}` }
+              >
+                { name }
+              </p>
               <p data-testid={ `player-score-${index}` }>{ score }</p>
             </li>))}
       </ol>
@@ -30,16 +35,17 @@ class Ranking extends Component {
 
   render() {
     return (
-      <>
+      <div className="containerRanking">
         <h1 data-testid="ranking-title">Ranking</h1>
         {this.renderRanking()}
         <Link to="/">
           <Button
             buttonText="Tela inicial"
             datatestid="btn-go-home"
+            className="btnHome"
           />
         </Link>
-      </>
+      </div>
     );
   }
 }

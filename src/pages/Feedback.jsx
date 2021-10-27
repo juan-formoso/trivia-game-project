@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import './Feedback.css';
 import Header from '../components/Header';
 import Button from '../components/Button';
 import getGravatar from '../services/gravatar';
@@ -43,30 +44,33 @@ class Feedback extends Component {
     const { assertions, score } = this.state;
     const MANDOU_BEM = 3;
     return (
-      <>
-        <div data-testid="feedback-text">Feedback</div>
+      <div>
         <Header />
-        <h2 data-testid="feedback-text">
-          { assertions >= MANDOU_BEM ? 'Mandou bem!' : 'Podia ser melhor...' }
-        </h2>
-        <h3>De 5 questões você acertou:</h3>
-        <span data-testid="feedback-total-question">{assertions}</span>
-        <h3>Sua pontuação foi de:</h3>
-        <span data-testid="feedback-total-score">{`${score} pontos`}</span>
-        <Link to="/">
-          <Button
-            buttonText="Jogar novamente"
-            datatestid="btn-play-again"
-          />
-        </Link>
-        <Link to="/ranking">
-          <Button
-            buttonText="Ver Ranking"
-            datatestid="btn-ranking"
-            onClick={ this.rankingLocalStorage }
-          />
-        </Link>
-      </>
+        <div className="mainContainer">
+          <h2 data-testid="feedback-text">
+            { assertions >= MANDOU_BEM ? 'Mandou bem!' : 'Podia ser melhor...' }
+          </h2>
+          <h3>De 5 questões você acertou:</h3>
+          <span data-testid="feedback-total-question">{assertions}</span>
+          <h3>Sua pontuação foi de:</h3>
+          <span data-testid="feedback-total-score">{`${score} pontos`}</span>
+          <Link to="/">
+            <Button
+              buttonText="Jogar novamente"
+              datatestid="btn-play-again"
+              className="btnPlayAgain"
+            />
+          </Link>
+          <Link to="/ranking">
+            <Button
+              buttonText="Ver Ranking"
+              datatestid="btn-ranking"
+              onClick={ this.rankingLocalStorage }
+              className="btnRanking"
+            />
+          </Link>
+        </div>
+      </div>
     );
   }
 }
