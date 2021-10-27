@@ -1,4 +1,4 @@
-import { REQUEST_QUESTIONS, GET_QUESTIONS } from '../actions';
+import { REQUEST_QUESTIONS, GET_QUESTIONS, RESET_QUESTIONS } from '../actions';
 
 const INITIAL_STATE = {
   questions: [],
@@ -14,6 +14,10 @@ const questionsReducer = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       questions: action.payload.results,
+    };
+  case RESET_QUESTIONS:
+    return {
+      questions: [],
     };
   default:
     return state;

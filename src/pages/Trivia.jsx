@@ -115,13 +115,14 @@ class Trivia extends Component {
     }
   }
 
-  renderCorrectAnswer(answer) {
+  renderCorrectAnswer(answer, index) {
     const { disabled, colorBorder } = this.state;
     return (
       <button
         type="button"
         data-testid="correct-answer"
         className="correct-answer"
+        key={ index }
         disabled={ disabled }
         onClick={ (event) => this.handleClick(event) }
         style={ colorBorder ? { border: '3px solid rgb(6, 240, 15)' } : null }
@@ -158,18 +159,27 @@ class Trivia extends Component {
     const correctAnswer = questionsTrivia[indexQuestions].correct_answer;
 
     return (
-      <>
-        <p data-testid="question-category">{questionsTrivia[indexQuestions].category}</p>
-        <p data-testid="question-text">
-          {decodedQuestion}
-        </p>
-        {sortedAnswers.map((answer, index) => (
-          answer === correctAnswer
-            ? this.renderCorrectAnswer(answer) : this.renderWrongAnswers(answer, index)
-        ))}
+      <div className="containerTrivia">
+        <div className="containerQuestions">
+          <h1
+            data-testid="question-category"
+          >
+            {questionsTrivia[indexQuestions].category}
+          </h1>
+          <p data-testid="question-text">
+            {decodedQuestion}
+          </p>
+        </div>
+        <div className="containerAnswers">
+          {sortedAnswers.map((answer, index) => (
+            answer === correctAnswer
+              ? this.renderCorrectAnswer(answer, index)
+              : this.renderWrongAnswers(answer, index)
+          ))}
+        </div>
         {colorBorder ? null : `Tempo restante: ${timer} segundos`}
         {this.renderButtonNextQuestion()}
-      </>
+      </div>
     );
   }
 

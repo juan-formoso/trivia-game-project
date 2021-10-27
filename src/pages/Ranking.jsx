@@ -11,7 +11,7 @@ class Ranking extends Component {
     const arrayRanking = this.getRankingAtLocalStorage();
     return (
       <ol>
-        {arrayRanking.sort((a, b) => b.score - a.score)
+        {arrayRanking && arrayRanking.sort((a, b) => b.score - a.score)
           .map(({ name, score, picture }, index) => (
             <li key={ index }>
               <div className="gravatar">
