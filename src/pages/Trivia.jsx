@@ -117,13 +117,14 @@ class Trivia extends Component {
     }
   }
 
-  renderCorrectAnswer(answer) {
+  renderCorrectAnswer(answer, index) {
     const { disabled, colorBorder } = this.state;
     return (
       <button
         type="button"
         data-testid="correct-answer"
         className="correct-answer"
+        key={ index }
         disabled={ disabled }
         onClick={ (event) => this.handleClick(event) }
         style={ colorBorder ? { border: '3px solid rgb(6, 240, 15)' } : null }
@@ -174,7 +175,8 @@ class Trivia extends Component {
         <div className="containerAnswers">
           {sortedAnswers.map((answer, index) => (
             answer === correctAnswer
-              ? this.renderCorrectAnswer(answer) : this.renderWrongAnswers(answer, index)
+              ? this.renderCorrectAnswer(answer, index)
+              : this.renderWrongAnswers(answer, index)
           ))}
         </div>
         {colorBorder ? null : `Tempo restante: ${timer} segundos`}
