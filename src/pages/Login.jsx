@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import './Login.css';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import logo from '../trivia.png';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import {
@@ -58,38 +60,45 @@ class Login extends Component {
   render() {
     const { name, gravatarEmail } = this.state;
     return (
-      <>
-        <Input
-          label="Nome:"
-          type="text"
-          name="name"
-          value={ name }
-          onChange={ this.handleChange }
-          placeholder="Digite seu nome"
-          datatestid="input-player-name"
-        />
-        <Input
-          label="E-mail:"
-          type="email"
-          name="gravatarEmail"
-          value={ gravatarEmail }
-          onChange={ this.handleChange }
-          placeholder="Digite seu e-mail"
-          datatestid="input-gravatar-email"
-        />
-        <Button
-          buttonText="Jogar"
-          disabled={ this.handleButton() }
-          datatestid="btn-play"
-          onClick={ this.handleClick }
-        />
-        <Link to="/settings">
-          <Button
-            buttonText="Configurações"
-            datatestid="btn-settings"
+      <div className="containerLogin">
+        <div className="boxLogin">
+          <img src={ logo } className="App-logo" alt="logo" />
+          <Input
+            label=""
+            type="text"
+            name="name"
+            value={ name }
+            onChange={ this.handleChange }
+            placeholder="Digite seu nome"
+            datatestid="input-player-name"
+            className="InputName"
           />
-        </Link>
-      </>
+          <Input
+            label=""
+            type="email"
+            name="gravatarEmail"
+            value={ gravatarEmail }
+            onChange={ this.handleChange }
+            placeholder="Digite seu e-mail"
+            datatestid="input-gravatar-email"
+            className="InputEmail"
+          />
+          <Button
+            buttonText="Jogar"
+            disabled={ this.handleButton() }
+            datatestid="btn-play"
+            onClick={ this.handleClick }
+            className="btnLogin"
+          />
+          <Link to="/settings" className="linkBtn">
+            <Button
+              buttonText="Configurações"
+              datatestid="btn-settings"
+              className="btnConfg"
+            />
+          </Link>
+        </div>
+      </div>
     );
   }
 }

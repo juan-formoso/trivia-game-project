@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import './Trivia.css';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { getScore } from '../redux/actions';
@@ -68,7 +69,7 @@ class Trivia extends Component {
 
   handleClick({ target }) {
     const { className } = target;
-    this.setState({ colorBorder: true, timer: 30 });
+    this.setState({ colorBorder: true, timer: 30, disabled: true });
     this.handleScore(className);
   }
 
@@ -108,6 +109,7 @@ class Trivia extends Component {
           type="button"
           onClick={ this.nextQuestion }
           data-testid="btn-next"
+          className="btnNextQuestion"
         >
           {indexQuestions === FOUR ? 'Finalizar jogo' : 'Próxima pergunta'}
         </button>

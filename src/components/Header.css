@@ -1,0 +1,23 @@
+.containerHeader {
+  align-items: center;
+  background-color: rgb(187, 180, 248);
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+}
+
+.containerUserInfo {
+  align-items: center;
+  display: flex;
+  padding: 5px;
+}
+
+.containerScore {
+  padding: 15px;
+}
+
+.userImage {
+  border-radius: 50%;
+  margin-right: 20px;
+  width: 40px;
+}
