@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './Header.css';
 import { connect } from 'react-redux';
 import getGravatar from '../services/gravatar';
 
@@ -8,17 +9,22 @@ class Header extends Component {
     const { userName, userEmail, score } = this.props;
     const gravatarSrc = getGravatar(userEmail);
     return (
-      <header>
-        <img
-          src={ gravatarSrc }
-          alt="gravatar"
-          data-testid="header-profile-picture"
-        />
-        <span data-testid="header-player-name">{`Jogador: ${userName}`}</span>
-        <span>Pontuação: </span>
-        <span data-testid="header-score">
-          {score}
-        </span>
+      <header className="containerHeader">
+        <div className="containerUserInfo">
+          <img
+            className="userImage"
+            src={ gravatarSrc }
+            alt="gravatar"
+            data-testid="header-profile-picture"
+          />
+          <span data-testid="header-player-name">{`Jogador: ${userName}`}</span>
+        </div>
+        <div className="containerScore">
+          <span>Pontuação: </span>
+          <span data-testid="header-score">
+            {score}
+          </span>
+        </div>
       </header>
     );
   }

@@ -1,0 +1,50 @@
+.containerRanking {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 50vw;
+  justify-content: center;
+  width: 100vw;
+}
+
+.containerRanking ol li {
+  align-items: center;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.rankingImg {
+  border-radius: 50%;
+  margin-right: 20px;
+  width: 40px;
+}
+
+.nameRanking {
+  margin-right: 10px;
+}
+
+.btnHome {
+  background: #003be5;
+  border-radius: 25px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  color: white;
+  height: 30px;
+  margin-top: 30px;
+  padding: 2px;
+  width: 20vw;
+}
+
+@media screen and ( max-width : 800px ) {
+
+  .containerRanking {
+    height: 100vh;
+
+  }
+
+  .btnHome {
+    width: 40vw;
+  }
+
+}
