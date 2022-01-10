@@ -32,7 +32,6 @@ Front-end:
 
 > Frontend
 ```bash
-cd src/
 npm install
 ``` 
 
@@ -41,5 +40,5 @@ npm install
 * Para rodar o front-end:
 
   ```
-    cd src/ && npm start
+    npm start
   ```
